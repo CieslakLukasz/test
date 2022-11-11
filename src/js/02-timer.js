@@ -1,7 +1,7 @@
 // Import necessary libraries
 
-import flatpickr from "flatpickr";
-import "flatpickr/dist/flatpickr.min.css";
+import flatpickr from 'flatpickr';
+import 'flatpickr/dist/flatpickr.min.css';
 import Notiflix, { Notify } from 'notiflix';
 
 // Catch HTML elements
@@ -22,28 +22,39 @@ let userDate;
 // Options parameters - ready object
 
 let options = {
-    enableTime: true,
-    time_24hr: true,
-    defaultDate: new Date(),
-    minuteIncrement: 1,
-    onClose(selectedDates) {
-        if (selectedDates[0] < pastDate) {
-            startBtn.disabled = true;
-            Notify.warning('Please choose a date in the future');
-        } else if (selectedDates[0] > pastDate) {
-            startBtn.disabled = false;
-            Notify.success('Waiting for the countdown to start');
-            userDate = selectedDates[0].getTime();
-        }
-    },
+  enableTime: true,
+  time_24hr: true,
+  defaultDate: new Date(),
+  minuteIncrement: 1,
+  onClose(selectedDates) {
+    if (selectedDates[0] < pastDate) {
+      startBtn.disabled = true;
+      Notify.warning('Please choose a date in the future');
+    } else if (selectedDates[0] > pastDate) {
+      startBtn.disabled = false;
+      Notify.success('Waiting for the countdown to start');
+      userDate = selectedDates[0].getTime();
+    }
+  },
 };
 
 // Function - countdown starting notification
 
 const countdownOn = () => {
-    startBtn.disabled = true;
-    Notify.success('The countdown has started');
-}
+  startBtn.disabled = true;
+  Notify.success('The countdown has started');
+
+  const timer = setInterval(() => {
+    let endTime = userDate - Date.now();
+    let cd = convertMs(endTime);
+    if (endTime <= 0) {
+      Notify.info("Time's up");
+      clearInterval(timer);
+    } else {
+      clock(cd);
+    }
+  }, 1000);
+};
 
 //
 
@@ -53,42 +64,31 @@ startBtn.addEventListener('click', countdownOn);
 // Function - converting time to ms
 
 function convertMs(ms) {
-    // Number of milliseconds per unit of time
-    const second = 1000;
-    const minute = second * 60;
-    const hour = minute * 60;
-    const day = hour * 24;
+  // Number of milliseconds per unit of time
+  const second = 1000;
+  const minute = second * 60;
+  const hour = minute * 60;
+  const day = hour * 24;
 
-    // Remaining days
-    const days = Math.floor(ms / day);
-    // Remaining hours
-    const hours = Math.floor((ms % day) / hour);
-    // Remaining minutes
-    const minutes = Math.floor(((ms % day) % hour) / minute);
-    // Remaining seconds
-    const seconds = Math.floor((((ms % day) % hour) % minute) / second);
+  // Remaining days
+  const days = Math.floor(ms / day);
+  // Remaining hours
+  const hours = Math.floor((ms % day) / hour);
+  // Remaining minutes
+  const minutes = Math.floor(((ms % day) % hour) / minute);
+  // Remaining seconds
+  const seconds = Math.floor((((ms % day) % hour) % minute) / second);
 
-    return { days, hours, minutes, seconds };
-};
-
-const clock = (cd) => {
-    days.textContent = cd.days;
-    hrs.textContent = cd.hours;
-    mins.textContent = cd.minutes;
-    secs.textContent = cd.seconds;
-};
-
-const timer = setInterval(() => {
-    let endTime = userDate - Date.now();
-    let cd = convertMs(endTime);
-    if (endTime <= 0) {
-        Notify.info("Time's up");
-        clearInterval(timer);
-    } else {
-        clock(cd);
-    }
-}, 1000);
-
-const addLeadingZero = (val) => {
-    return String(val).padStart(2, '0');
+  return { days, hours, minutes, seconds };
 }
+
+const clock = cd => {
+  days.textContent = cd.days;
+  hrs.textContent = cd.hours;
+  mins.textContent = cd.minutes;
+  secs.textContent = cd.seconds;
+};
+
+const addLeadingZero = val => {
+  return String(val).padStart(2, '0');
+};
