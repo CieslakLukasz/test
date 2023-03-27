@@ -1,0 +1,45 @@
+.formContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 50px;
+}
+
+.form {
+    width: 50vw;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+@media screen and (max-width: 768px) {
+    .form {
+        width: 80vw;
+    }
+}
+
+.form > input {
+    all: unset;
+    cursor: text;
+    padding: 15px;
+    border: 1px solid rgb(144, 144, 144);
+    background-color: white;
+    border-radius: 5px;
+}
+
+button {
+    align-self: center;
+    all: unset;
+    max-width: 250px;
+    cursor: pointer;
+    border-radius: 5px;
+    padding: 10px;
+    border: 1px solid black;
+    transition: background-color 250ms linear;
+}
+
+button:hover {
+    background-color: rgb(243, 228, 22);
+}

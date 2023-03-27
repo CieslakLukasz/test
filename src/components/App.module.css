@@ -1,0 +1,12 @@
+body {
+    background-color: rgb(72, 134, 160);
+    color: #010101;
+    font-size: 16px;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
