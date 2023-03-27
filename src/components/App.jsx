@@ -37,7 +37,7 @@ export class App extends Component {
         contact => contact.name.toLowerCase() === name.toLowerCase()
       )
     ) {
-      alert(`Contact ${name} is already in your contact list`);
+      alert(`Contact ${name} is already in your contact list.`);
     } else if (contacts.find(contact => contact.number === number)) {
       alert(
         `Contact ${number} is already in your contact list under a different name`
